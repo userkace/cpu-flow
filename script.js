@@ -341,146 +341,107 @@ document.addEventListener("DOMContentLoaded", function () {
         // Sort processes by arrival time
         processes.sort((a, b) => a.arrival - b.arrival);
 
-        // Prepare arrays for calculations
-        let n = processes.length;
-        let processIds = processes.map(p => p.id);
-        let burstTimes = processes.map(p => p.burst);
-
-        // Perform Round Robin scheduling
-        let rem_bt = [...burstTimes]; // Remaining burst times
-        let wt = new Array(n).fill(0); // Waiting times
-        let tat = new Array(n).fill(0); // Turnaround times
         let currentTime = 0;
-        let completed = new Array(n).fill(false);
-        let completionOrder = [];
+        let completed = 0;
+        let ganttProcesses = [];
+        let processQueue = [];
 
-        // Gantt chart tracking
-        let ganttHTML = `<div class="gantt-bar">`;
+        // Find the lowest arrival time to start
+        currentTime = Math.min(...processes.map(p => p.arrival));
 
-        // Round Robin scheduling logic
-        while (completed.some(status => !status)) {
-            let processExecuted = false;
-
-            for (let i = 0; i < n; i++) {
-                // Skip if process is already completed or hasn't arrived
-                if (completed[i] || processes[i].arrival > currentTime) continue;
-
-                // Determine execution time
-                let executeTime = Math.min(timeQuantum, rem_bt[i]);
-
-                // Update Gantt chart
-                ganttHTML += `<div class="process" style="width:${executeTime * 30}px">${processIds[i]}</div>`;
-
-                // Update current time and remaining burst time
-                currentTime += executeTime;
-                rem_bt[i] -= executeTime;
-
-                // Check if process is completed
-                if (rem_bt[i] <= 0) {
-                    completed[i] = true;
-                    completionOrder.push(i);
-
-                    // Calculate waiting time and turnaround time
-                    tat[i] = currentTime - processes[i].arrival;
-                    wt[i] = tat[i] - burstTimes[i];
+        // Simulation of Round Robin scheduling
+        while (completed < processes.length) {
+            // Add processes that have arrived to the queue
+            processes.forEach(p => {
+                if (p.arrival <= currentTime && p.remaining > 0 && !processQueue.includes(p)) {
+                    processQueue.push(p);
                 }
+            });
 
-                processExecuted = true;
+            // If no process is in the queue, move time forward
+            if (processQueue.length === 0) {
+                currentTime++;
+                continue;
             }
 
-            // If no process was executed, increment time
-            if (!processExecuted) {
-                currentTime++;
+            // Get the first process in the queue
+            let currentProcess = processQueue.shift();
+
+            // Execute the process for time quantum or remaining time
+            let executionTime = Math.min(timeQuantum, currentProcess.remaining);
+
+            // Record the process execution in Gantt chart
+            ganttProcesses.push({
+                id: currentProcess.id,
+                start: currentTime,
+                duration: executionTime
+            });
+
+            // Update process and time
+            currentProcess.remaining -= executionTime;
+            currentTime += executionTime;
+
+            // If process is completed, calculate metrics
+            if (currentProcess.remaining === 0) {
+                currentProcess.completionTime = currentTime;
+                currentProcess.turnaroundTime = currentProcess.completionTime - currentProcess.arrival;
+                currentProcess.waitingTime = currentProcess.turnaroundTime - currentProcess.burst;
+                completed++;
+            } else {
+                // If process is not completed, add back to queue
+                processQueue.push(currentProcess);
             }
         }
 
-        // Optimize Gantt chart generation
-        let combinedGanttProcesses = [];
-        let currentProcess = null;
+        // Generate Gantt chart HTML
+        let ganttHTML = `<div class="gantt-bar">`;
+        let lastTime = currentTime;
 
-        // Extract process IDs from the original Gantt chart HTML
-        let processMatches = ganttHTML.match(/class="process" style="width:([^<]+)px">([^<]+)</g) || [];
-        let processArray = processMatches.map(match => match.match(/>([^<]+)</)[1]);
+        ganttProcesses.forEach((p, index) => {
+            // Add time marker before the first process or between processes
+            ganttHTML += `<div class="time">${p.start}</div>`;
 
-        // Combine consecutive processes
-        processArray.forEach((processId, index) => {
-            if (!currentProcess) {
-                currentProcess = {
-                    id: processId,
-                    width: 30
-                };
-            } else if (currentProcess.id === processId) {
-                // Extend width if same process
-                currentProcess.width += 30;
-            } else {
-                // Different process, save previous and start new
-                combinedGanttProcesses.push(currentProcess);
-                currentProcess = {
-                    id: processId,
-                    width: 30
-                };
-            }
+            // Calculate process width based on actual duration
+            // Use a base width of 30px per time unit
+            let processWidth = p.duration * 30;
+            ganttHTML += `<div class="process" style="width:${processWidth}px">${p.id}</div>`;
 
-            // Add last process if it's the last iteration
-            if (index === processArray.length - 1) {
-                combinedGanttProcesses.push(currentProcess);
+            // If this is not the last process, and there's a gap to the next process, add a time marker
+            if (index < ganttProcesses.length - 1) {
+                let nextProcessStart = ganttProcesses[index + 1].start;
+                if (p.start + p.duration < nextProcessStart) {
+                    ganttHTML += `<div class="time">${p.start + p.duration}</div>`;
+                }
             }
         });
 
-        // Only generate Gantt chart if there are processes
-        if (combinedGanttProcesses.length > 0) {
-            ganttHTML = `<div class="gantt-bar">`;
-
-            // Find the lowest arrival time to use as the start time
-            let lowestArrivalTime = Math.min(...processes.map(p => p.arrival));
-            let currentTime = lowestArrivalTime;
-
-            combinedGanttProcesses.forEach((p, index) => {
-                // Add time before the first process or between processes
-                if (index === 0 || index > 0) {
-                    ganttHTML += `<div class="time">${currentTime}</div>`;
-                }
-
-                // Add process block
-                ganttHTML += `<div class="process" style="width:${p.width}px">${p.id}</div>`;
-
-                // Update current time
-                currentTime += p.width / 30;
-            });
-
-            // Add final time at the end
-            ganttHTML += `<div class="time">${currentTime}</div>`;
-
-            ganttHTML += `</div>`;
-            ganttChart.innerHTML = ganttHTML;
-        } else {
-            ganttChart.innerHTML = ""; // Clear chart if no processes
-        }
+        // Add final time marker
+        ganttHTML += `<div class="time">${lastTime}</div>`;
+        ganttHTML += `</div>`;
+        ganttChart.innerHTML = ganttHTML;
 
         // Generate output table
         let tableHTML = `<table border="1">
             <tr><th>Process</th><th>Arrival Time</th><th>Burst Time</th><th>Waiting Time</th><th>Turnaround Time</th></tr>`;
 
-        let totalWT = 0,
-            totalTAT = 0;
-        completionOrder.forEach(i => {
+        let totalWT = 0, totalTAT = 0;
+        processes.forEach(p => {
             tableHTML += `<tr>
-                <td>${processIds[i]}</td>
-                <td>${processes[i].arrival}</td>
-                <td>${burstTimes[i]}</td>
-                <td>${wt[i]}</td>
-                <td>${tat[i]}</td>
+                <td>${p.id}</td>
+                <td>${p.arrival}</td>
+                <td>${p.burst}</td>
+                <td>${p.waitingTime}</td>
+                <td>${p.turnaroundTime}</td>
             </tr>`;
-            totalWT += wt[i];
-            totalTAT += tat[i];
+            totalWT += p.waitingTime;
+            totalTAT += p.turnaroundTime;
         });
 
-        let avgWT = (totalWT / n).toFixed(2);
-        let avgTAT = (totalTAT / n).toFixed(2);
+        let avgWT = (totalWT / processes.length).toFixed(2);
+        let avgTAT = (totalTAT / processes.length).toFixed(2);
         tableHTML += `<tr><td colspan="3">Average</td><td>${avgWT}</td><td>${avgTAT}</td></tr></table>`;
 
         output.innerHTML = tableHTML;
-        ganttChart.innerHTML = ganttHTML;
 
         hasChanges = false;
     }
