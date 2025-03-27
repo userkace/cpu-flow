@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+.hidden {
+    display: none;
+}
+
+.gantt-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    margin-top: 10px;
+    overflow-x: auto;
+}
+
+.gantt-bar {
+    display: flex;
+}
+
+.process {
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px;
+    margin: 2px;
+    text-align: center;
+    border-radius: 5px;
+    min-width: 30px;
+}
+
+/* Remove number input arrows */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}

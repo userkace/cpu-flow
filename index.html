@@ -1,39 +1,99 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CPU Scheduling Simulator</title>
+    <title>CPU Flow</title>
     <link rel="stylesheet" href="style.css">
+    <link href="./src/output.css" rel="stylesheet">
+    <link rel="shortcut icon" href="./asset/cpu-flow.ico" type="image/x-icon">
+
+    <script src="https://cdn.lordicon.com/lordicon.js"></script>
+
 </head>
-<body>
-    <div id="home">
-        <h1>CPU Scheduling Simulator</h1>
-        <button onclick="showModule('srt')">Shortest Remaining Time</button>
-        <button onclick="showModule('rr')">Round Robin</button>
+
+<body class="bg-gray-100 h-full flex flex-col items-center justify-center p-4">
+    <div id="home" class="text-center bg-white shadow-xl rounded-xl p-8 max-w-md w-full">
+        <div class="flex items-center justify-center mb-4">
+            <img src="./asset/cpu-flow.svg" alt="cpu-flow" class="w-14 h-16 mr-2 flex items-center">
+            <h1 class="text-4xl font-bold text-blue-600 flex items-center">CPU Flow</h1>
+        </div>
+        <h2 class="text-xl text-gray-600 mb-8">a CPU scheduling simulator</h2>
+        <div class="space-y-2">
+            <button onclick="showModule('srt'); addProcess('srt');"
+                class="w-full rounded-lg cursor-pointer bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 flex items-center justify-center">
+                <img src="./asset/srt.svg" alt="srt" class="w-6 h-6 mr-2 filter invert">
+                Shortest Remaining Time
+            </button>
+            <button onclick="showModule('rr'); addProcess('rr');"
+                class="w-full rounded-lg cursor-pointer bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-300 flex items-center justify-center">
+                <img src="./asset/rr.svg" alt="rr" class="w-6 h-6 mr-2 filter invert">
+                Round Robin
+            </button>
+        </div>
     </div>
-    
-    <div id="srt" class="hidden">
-        <h2>Shortest Remaining Time</h2>
-        <div id="process-container"></div>
-        <button onclick="addProcess('srt')">Add Process</button>
-        <button onclick="calculateSRT()">Calculate</button>
-        <button onclick="confirmBack()">Back</button>
-        <div id="srt-output"></div>
-        <div id="srt-output-gantt" class="gantt-container"></div>
+
+    <div id="srt" class="hidden w-full max-w-3xl bg-white shadow-xl rounded-xl p-6 mt-8">
+        <h2 class="text-2xl font-semibold text-blue-600 mb-6">Shortest Remaining Time</h2>
+        <div id="process-container" class="space-y-4 mb-4"></div>
+        <div class="flex space-x-2">
+            <button onclick="addProcess('srt')"
+                class="rounded-lg cursor-pointer bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+                Add Process
+            </button>
+            <button onclick="calculateSRT()"
+                class="rounded-lg cursor-pointer bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+                Calculate
+            </button>
+            <button onclick="confirmBack()"
+                class="rounded-lg cursor-pointer bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+                Back
+            </button>
+        </div>
     </div>
-    
-    <div id="rr" class="hidden">
-        <h2>Round Robin</h2>
-        <input type="number" id="time-quantum" placeholder="Time Quantum">
-        <div id="rr-container"></div>
-        <button onclick="addProcess('rr')">Add Process</button>
-        <button onclick="calculateRR()">Calculate</button>
-        <button onclick="confirmBack()">Back</button>
-        <div id="rr-output"></div>
-        <div id="rr-output-gantt" class="gantt-container"></div>
+    <div id="srt-output-container" class="hidden w-full max-w-3xl bg-white shadow-xl rounded-xl p-6 mt-8">
+        <div id="srt-output" class="mt-6"></div>
+        <div id="srt-output-gantt" class="gantt-container mt-4"></div>
+    </div>
+
+    <div id="rr" class="hidden w-full max-w-3xl bg-white shadow-xl rounded-xl p-6 mt-8">
+        <h2 class="text-2xl font-semibold text-green-600 mb-6">Round Robin</h2>
+        <input type="number" id="time-quantum" placeholder="Time Quantum"
+            class="outline-none bg-transparent rounded-lg border-3 border-neutral-600 px-2 mb-4 w-min">
+        <div id="rr-container" class="space-y-4 mb-4"></div>
+        <div class="flex space-x-2">
+            <button onclick="addProcess('rr')"
+                class="rounded-lg cursor-pointer bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+                Add Process
+            </button>
+            <button onclick="calculateRR()"
+                class="rounded-lg cursor-pointer bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+                Calculate
+            </button>
+            <button onclick="confirmBack()"
+                class="rounded-lg cursor-pointer bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+                Back
+            </button>
+        </div>
+    </div>
+    <div id="rr-output-container" class="hidden w-full max-w-3xl bg-white shadow-xl rounded-xl p-6 mt-8">
+        <div id="rr-output" class="mt-6"></div>
+        <div id="rr-output-gantt" class="gantt-container mt-4"></div>
+    </div>
+
+    <div class="fixed bottom-0 left-0 w-full bg-gray-200 bg-opacity-75 p-2 text-sm z-50 flex justify-between">
+        <span class="text-gray-700">Made <span class="text-red-500">with love</span> by Dysfunctional System</span>
+        <a href="https://github.com/userkace/cpu-flow" target="_blank" rel="noopener noreferrer">
+            <button
+                class="rounded-lg cursor-pointer bg-white hover:bg-gray-300 text-gray-700 font-bold py-1 px-4 rounded transition duration-300">
+                View on GitHub
+            </button>
+        </a>
     </div>
 
     <script src="script.js"></script>
+
 </body>
+
 </html>
