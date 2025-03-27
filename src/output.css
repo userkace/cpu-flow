@@ -547,6 +547,15 @@
   .h-\[1\.5rem\] {
     height: 1.5rem;
   }
+  .h-\[1\.8rem\] {
+    height: 1.8rem;
+  }
+  .h-\[1\.75rem\] {
+    height: 1.75rem;
+  }
+  .h-\[2rem\] {
+    height: 2rem;
+  }
   .h-full {
     height: 100%;
   }
@@ -588,6 +597,12 @@
   }
   .w-\[1\.5rem\] {
     width: 1.5rem;
+  }
+  .w-\[1\.8rem\] {
+    width: 1.8rem;
+  }
+  .w-\[1\.75rem\] {
+    width: 1.75rem;
   }
   .w-\[2rem\] {
     width: 2rem;
