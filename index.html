@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPU Scheduling Simulator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="home">
+        <h1>CPU Scheduling Simulator</h1>
+        <button onclick="showModule('srt')">Shortest Remaining Time</button>
+        <button onclick="showModule('rr')">Round Robin</button>
+    </div>
+    
+    <div id="srt" class="hidden">
+        <h2>Shortest Remaining Time</h2>
+        <div id="process-container"></div>
+        <button onclick="addProcess('srt')">Add Process</button>
+        <button onclick="calculateSRT()">Calculate</button>
+        <button onclick="confirmBack()">Back</button>
+        <div id="srt-output"></div>
+        <div id="srt-output-gantt" class="gantt-container"></div>
+    </div>
+    
+    <div id="rr" class="hidden">
+        <h2>Round Robin</h2>
+        <input type="number" id="time-quantum" placeholder="Time Quantum">
+        <div id="rr-container"></div>
+        <button onclick="addProcess('rr')">Add Process</button>
+        <button onclick="calculateRR()">Calculate</button>
+        <button onclick="confirmBack()">Back</button>
+        <div id="rr-output"></div>
+        <div id="rr-output-gantt" class="gantt-container"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
