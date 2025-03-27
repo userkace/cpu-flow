@@ -388,11 +388,20 @@
   .m-10 {
     margin: calc(var(--spacing) * 10);
   }
+  .m-auto {
+    margin: auto;
+  }
+  .mx-auto {
+    margin-inline: auto;
+  }
   .my-0 {
     margin-block: calc(var(--spacing) * 0);
   }
   .my-0\.5 {
     margin-block: calc(var(--spacing) * 0.5);
+  }
+  .my-auto {
+    margin-block: auto;
   }
   .mt-2 {
     margin-top: calc(var(--spacing) * 2);
@@ -429,6 +438,9 @@
   }
   .mb-8 {
     margin-bottom: calc(var(--spacing) * 8);
+  }
+  .ml-auto {
+    margin-left: auto;
   }
   .box-border {
     box-sizing: border-box;
@@ -585,6 +597,15 @@
   }
   .w-\[5rem\] {
     width: 5rem;
+  }
+  .w-\[8rem\] {
+    width: 8rem;
+  }
+  .w-\[9rem\] {
+    width: 9rem;
+  }
+  .w-\[10rem\] {
+    width: 10rem;
   }
   .w-\[30px\] {
     width: 30px;

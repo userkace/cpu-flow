@@ -47,7 +47,7 @@
                 Calculate
             </button>
             <button onclick="confirmBack()"
-                class="rounded-lg cursor-pointer bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+                class="rounded-lg cursor-pointer bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300 ml-auto">
                 Back
             </button>
         </div>
@@ -58,9 +58,11 @@
     </div>
 
     <div id="rr" class="hidden w-full max-w-3xl bg-white shadow-xl rounded-xl p-6 mt-8">
-        <h2 class="text-2xl font-semibold text-green-600 mb-6">Round Robin</h2>
-        <input type="number" id="time-quantum" placeholder="Time Quantum"
-            class="outline-none bg-transparent rounded-lg border-3 border-neutral-600 px-2 mb-4 w-min">
+        <div class="flex items-center mb-4">
+            <h2 class="text-2xl font-semibold text-green-600 mb-2">Round Robin</h2>
+            <input type="number" id="time-quantum" placeholder="  Time Quantum  "
+                class="flex outline-none bg-transparent rounded-lg border-3 border-neutral-600 px-2 w-[9rem] text-center ml-auto">
+        </div>
         <div id="rr-container" class="space-y-4 mb-4"></div>
         <div class="flex space-x-2">
             <button onclick="addProcess('rr')"
@@ -72,7 +74,7 @@
                 Calculate
             </button>
             <button onclick="confirmBack()"
-                class="rounded-lg cursor-pointer bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+                class="rounded-lg cursor-pointer bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300 ml-auto">
                 Back
             </button>
         </div>

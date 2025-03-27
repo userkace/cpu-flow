@@ -61,8 +61,8 @@ document.addEventListener("DOMContentLoaded", function () {
         let processCount = container.children.length + 1;
         let div = document.createElement("div");
         div.classList.add("process-entry");
-        div.classList.add("py-0"); // Add less up and down padding
-        div.classList.add("my-0.5"); // Add less up and down padding
+        div.classList.add("py-0");
+        div.classList.add("my-0.5");
 
         container.querySelectorAll('.remove-btn').forEach(btn => {
             btn.classList.add('hidden');
@@ -285,7 +285,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Input validation
         let processContainer = document.getElementById("rr-container");
         let timeQuantumInput = document.getElementById("time-quantum");
-        
+
         if (processContainer.children.length === 0) {
             alert("Please add at least one process for Round Robin calculation.");
             return;
