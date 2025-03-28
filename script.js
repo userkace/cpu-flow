@@ -70,9 +70,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         div.innerHTML = `
             <input type="text" value="P${processCount}" class="w-[4rem]" disabled>
-            <input type="number" placeholder="Arrival Time" class="arrival outline-none bg-transparent rounded-lg border-3 border-neutral-600 px-2" min="0" step="1" pattern="[0-9]*" inputmode="numeric">
-            <input type="number" placeholder="Burst Time" class="burst outline-none bg-transparent rounded-lg border-3 border-neutral-600 px-2" min="0" step="1" pattern="[0-9]*" inputmode="numeric">
-            <button class="remove-btn bg-red-600 rounded-lg h-[1.8rem] w-[1.8rem] items-center justify-center cursor-pointer text-white font-bold">✕</button>
+            <input type="number" placeholder="Arrival Time" class="arrival outline-none bg-transparent hover:bg-neutral-100 rounded-lg border-3 border-neutral-600 px-2 transition duration-300" min="0" step="1" pattern="[0-9]*" inputmode="numeric">
+            <input type="number" placeholder="Burst Time" class="burst outline-none bg-transparent hover:bg-neutral-100 rounded-lg border-3 border-neutral-600 px-2 transition duration-300" min="0" step="1" pattern="[0-9]*" inputmode="numeric">
+            <button class="remove-btn bg-red-500 hover:bg-red-600 rounded-lg h-[1.8rem] w-[1.8rem] items-center justify-center cursor-pointer text-white font-bold">✕</button>
             `;
 
         container.appendChild(div);
@@ -275,7 +275,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let avgWT = (totalWT / processes.length).toFixed(2);
         let avgTAT = (totalTAT / processes.length).toFixed(2);
-        tableHTML += `<tr><td colspan="3">Average</td><td>${avgWT}</td><td>${avgTAT}</td></tr></table>`;
+        tableHTML += `<tr><td colspan="3" class="font-bold">Average</td><td class="italic">${avgWT}</td><td class="italic">${avgTAT}</td></tr></table>`;
 
         output.innerHTML = tableHTML;
         hasChanges = false;
