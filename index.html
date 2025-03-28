@@ -37,7 +37,7 @@
     <div id="srt" class="hidden w-full max-w-3xl bg-white shadow-xl rounded-xl p-6 mt-8">
         <h2 class="text-2xl font-semibold text-blue-600 mb-6">Shortest Remaining Time</h2>
         <div id="process-container" class="space-y-4 mb-4"></div>
-        <div class="flex space-x-2">
+        <div class="flex space-x-2 pt-2">
             <button onclick="addProcess('srt')"
                 class="rounded-lg cursor-pointer bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300">
                 Add Process
@@ -61,10 +61,10 @@
         <div class="flex items-center mb-4">
             <h2 class="text-2xl font-semibold text-green-600 mb-2">Round Robin</h2>
             <input type="number" id="time-quantum" placeholder="  Time Quantum  "
-                class="flex outline-none bg-transparent rounded-lg border-3 border-neutral-600 px-2 w-[9rem] text-center ml-auto">
+                class="flex outline-none bg-transparent rounded-lg border-2 border-neutral-400 px-2 w-[9rem] text-center ml-auto">
         </div>
         <div id="rr-container" class="space-y-4 mb-4"></div>
-        <div class="flex space-x-2">
+        <div class="flex space-x-2 pt-2">
             <button onclick="addProcess('rr')"
                 class="rounded-lg cursor-pointer bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-300">
                 Add Process
