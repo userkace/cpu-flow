@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <input type="text" value="P${processCount}" class="w-[4rem]" disabled>
             <input type="number" placeholder="Arrival Time" class="arrival outline-none bg-transparent rounded-lg border-3 border-neutral-600 px-2" min="0" step="1" pattern="[0-9]*" inputmode="numeric">
             <input type="number" placeholder="Burst Time" class="burst outline-none bg-transparent rounded-lg border-3 border-neutral-600 px-2" min="0" step="1" pattern="[0-9]*" inputmode="numeric">
-            <button class="remove-btn bg-neutral-800 rounded-lg h-[1.8rem] w-[1.8rem] items-center justify-center cursor-pointer text-red-400">✕</button>
+            <button class="remove-btn bg-red-600 rounded-lg h-[1.8rem] w-[1.8rem] items-center justify-center cursor-pointer text-white font-bold">✕</button>
             `;
 
         container.appendChild(div);
