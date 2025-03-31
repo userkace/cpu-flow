@@ -439,7 +439,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let avgWT = (totalWT / processes.length).toFixed(2);
         let avgTAT = (totalTAT / processes.length).toFixed(2);
-        tableHTML += `<tr><td colspan="3">Average</td><td>${avgWT}</td><td>${avgTAT}</td></tr></table>`;
+        tableHTML += `<tr><td colspan="3" class="font-bold">Average</td><td class="italic">${avgWT}</td><td class="italic">${avgTAT}</td></tr></table>`;
 
         output.innerHTML = tableHTML;
 
